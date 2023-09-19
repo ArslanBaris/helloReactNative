@@ -38,13 +38,13 @@ function App(): JSX.Element {
     <View
       style={styles.container}>
       <View
-        style={[styles.box,styles.box1]}>
-        <Text style={styles.welcome}>Box 1</Text>
+        style={styles.slideOne}>
       </View>
-      <View
-        style={[styles.box,styles.box2]}>
-        <Text style={styles.welcome}>Box 2</Text>
-      </View>
+      <View style={styles.slideTwo}>
+					<View style={[styles.box, styles.box1]}></View>
+					<View style={[styles.box, styles.box2]}></View>
+					<View style={[styles.box, styles.box3]}></View>
+				</View>
     </View>
 
   );
@@ -52,26 +52,32 @@ function App(): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-   
+    flex:1,
+   backgroundColor:"#FFEB3B"
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
+  slideOne: {
+    backgroundColor:"#607D8B",
+    flex:1,
   },
-  box:{
-    width:100,
-    height:100,
-    borderWidth:5,
-    borderColor:"#ddd",
-    marginBottom:5
+  slideTwo:{
+    backgroundColor:"#FF5722",
+    flex:2,
+    flexDirection:"row",
   },
-  box1: {
-    backgroundColor: "aquamarine",
-  },
-  box2: {
-    backgroundColor: "purple",
-  }
+  box: {
+		width: 100,
+		height: 100
+	},
+	box1: {
+		backgroundColor:'#795548'
+	},
+	box2: {
+		backgroundColor: '#9E9E9E'
+	},
+	box3: {
+		backgroundColor: '#3F51B5'
+	}
+
 
 });
 
