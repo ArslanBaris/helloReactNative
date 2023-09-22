@@ -19,6 +19,7 @@ import {
   View,
   Image,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -42,23 +43,28 @@ function App(): JSX.Element {
     android: require('./src/assets/platform.android.png'),
   });
 
-  // -contain
-  // -cover
-  // -center
-  // -repeat
-  // -stretch
+  const _onPressButton = () => {
+    Alert.alert('Alert','You tapped the button!');
+  };
 
 
   return (
 
     <View
       style={styles.container}>
-      <View style={styles.container2}>
-        <Image  source={imageSource} style={styles.image} />
-      </View>
-      <View style={styles.container2}>
-        <Image resizeMode='cover'  style={styles.image} source={{ uri: 'https://media.istockphoto.com/id/903934818/tr/foto%C4%9Fraf/istanbul-say%C4%B1s%C4%B1.jpg?s=612x612&w=0&k=20&c=y8mpuX3uQZDGk2PVFqHgbokiNayLfvpgWBKzrJ5E_U4=' }} />
-      </View>
+      <TouchableOpacity style={{marginBottom: 40}}>
+          <View style={styles.buttonContainer}>
+            <Text style={styles.buttonTitle}>My Button</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={_onPressButton}
+        >
+          <Image
+            style={{width: 100, height: 100}}
+            source={require('./src/assets/button.png')} />
+        </TouchableOpacity>
     </View>
 
   );
@@ -66,29 +72,20 @@ function App(): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#FFEB3B',
     flex: 1,
-    backgroundColor: "#FFEB3B",
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  image: {
-    width: "100%",
-    height: 180,
-    borderWidth: 2,
-    borderColor: 'red',
+  buttonTitle: {
+    fontSize: 24
   },
-  container2: {
-    flex: 1,
-    backgroundColor: "#FFEB3B",
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+  buttonContainer: {
+    padding: 15,
+    backgroundColor: 'orange',
+    borderRadius: 15
   }
-
-
-
 });
 
 export default App;
