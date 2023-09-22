@@ -39,6 +39,7 @@ function App(): JSX.Element {
       style={styles.container}>
       <View
         style={styles.slideOne}>
+          	<Text>Merhaba!</Text>
       </View>
       <View style={styles.slideTwo}>
 					<View style={[styles.box, styles.box1]}></View>
@@ -58,11 +59,16 @@ const styles = StyleSheet.create({
   slideOne: {
     backgroundColor:"#607D8B",
     flex:1,
+    flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center'
   },
   slideTwo:{
     backgroundColor:"#FF5722",
     flex:2,
     flexDirection:"row",
+    justifyContent:"center",
+    alignItems:"center"
   },
   box: {
 		width: 100,
