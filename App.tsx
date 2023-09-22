@@ -8,6 +8,8 @@
 import React from 'react';
 import type { PropsWithChildren } from 'react';
 import {
+  Button,
+  Alert,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -24,6 +26,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import Card from './src/components/Card';
 
 
 function App(): JSX.Element {
@@ -33,19 +36,23 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+
+  const onPressDetail = () => {
+    Alert.alert('Detail');
+  };
+
   return (
 
     <View
       style={styles.container}>
-      <View
-        style={styles.slideOne}>
-          	<Text>Merhaba!</Text>
-      </View>
-      <View style={styles.slideTwo}>
-					<View style={[styles.box, styles.box1]}></View>
-					<View style={[styles.box, styles.box2]}></View>
-					<View style={[styles.box, styles.box3]}></View>
-				</View>
+      <Card text='Merhaba' backgroundColor='blue' />
+      <Card text='🚀' />
+      <Card text='React Native' backgroundColor='red' />
+      <Button
+        title='Detail'
+        color='#000'
+        onPress={onPressDetail}
+      />
     </View>
 
   );
@@ -53,38 +60,16 @@ function App(): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-   backgroundColor:"#FFEB3B"
+    flex: 1,
+    backgroundColor: "#FFEB3B",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  slideOne: {
-    backgroundColor:"#607D8B",
-    flex:1,
-    flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'center'
-  },
-  slideTwo:{
-    backgroundColor:"#FF5722",
-    flex:2,
-    flexDirection:"row",
-    justifyContent:"center",
-    alignItems:"center"
-  },
-  box: {
-		width: 100,
-		height: 100
-	},
-	box1: {
-		backgroundColor:'#795548'
-	},
-	box2: {
-		backgroundColor: '#9E9E9E'
-	},
-	box3: {
-		backgroundColor: '#3F51B5'
-	}
+
 
 
 });
 
 export default App;
+
