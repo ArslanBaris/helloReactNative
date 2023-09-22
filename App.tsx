@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
   Button,
@@ -20,6 +20,7 @@ import {
   Image,
   Platform,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 
 import {
@@ -32,41 +33,27 @@ import {
 
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [name, setName] = useState("")
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const _onChangeText = (e: string) => {
+    setName(e)
   };
-
-  const imageSource = Platform.select({
-    ios: require('./src/assets/platform.ios.png'),
-    android: require('./src/assets/platform.android.png'),
-  });
-
-  const _onPressButton = () => {
-    Alert.alert('Alert','You tapped the button!');
-  };
-
 
   return (
-
-    <View
-      style={styles.container}>
-      <TouchableOpacity style={{marginBottom: 40}}>
-          <View style={styles.buttonContainer}>
-            <Text style={styles.buttonTitle}>My Button</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={_onPressButton}
-        >
-          <Image
-            style={{width: 100, height: 100}}
-            source={require('./src/assets/button.png')} />
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <Text>{name}</Text>
+      <TextInput
+      // secureTextEntry={true}
+      editable={true}
+      keyboardAppearance='light'
+        autoCapitalize='sentences'
+        // keyboardType='number-pad'
+        value={name}
+        placeholder='Bir isim girin...'
+        onChangeText={_onChangeText}
+        style={styles.myInput}
+      />
     </View>
-
   );
 }
 
@@ -76,15 +63,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingHorizontal: 10
   },
-  buttonTitle: {
-    fontSize: 24
-  },
-  buttonContainer: {
-    padding: 15,
-    backgroundColor: 'orange',
-    borderRadius: 15
+  myInput: {
+    width: '100%',
+    height: 60,
+    borderWidth: 2,
+    borderColor: 'gray'
   }
 });
 
