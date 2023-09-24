@@ -14,13 +14,14 @@ import {
 
 
 import FlatListExample from './src/components/FlatListExample';
+import PlatformExample from './src/components/PlatformExample';
 
 
 function App(): JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
-   	<FlatListExample />
+   	<PlatformExample />
   </SafeAreaView>
   );
 }
