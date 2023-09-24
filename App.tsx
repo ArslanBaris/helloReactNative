@@ -40,7 +40,7 @@ function App(): JSX.Element {
 
   const renderContactsItem = ({item,index}:any) =>{
     return(
-    	<TouchableOpacity style={styles.itemContainer}>
+    	<TouchableOpacity style={[styles.itemContainer, { backgroundColor: index % 2 === 1 ? '#fafafa' : 'white' }]}>
 				<Image
 					style={styles.avatar}
 					source={{ uri: item.picture }} />
@@ -51,10 +51,18 @@ function App(): JSX.Element {
 			</TouchableOpacity>
     )
   }
+  const renderHeader = () => {
+		return (
+			<View style={styles.searchContainer}>
+				<TextInput placeholder="Search..." style={styles.searchInput} />
+			</View>
+		)
+	};
 
   return (
     <SafeAreaView style={styles.container}>
     <FlatList
+    ListHeaderComponent={renderHeader}
       renderItem={renderContactsItem}
       keyExtractor={item => item._id}
       data={data} />
@@ -84,6 +92,14 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		fontSize: 16
+	},
+  searchContainer: {
+		padding: 10
+	},
+	searchInput: {
+		fontSize: 16,
+		backgroundColor: '#f9f9f9',
+		padding: 10
 	}
 });
 
