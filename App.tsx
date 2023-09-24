@@ -40,25 +40,50 @@ function App(): JSX.Element {
 
   const renderContactsItem = ({item,index}:any) =>{
     return(
-      <View>
-      <Text>{item.name}</Text>
-    </View>
+    	<TouchableOpacity style={styles.itemContainer}>
+				<Image
+					style={styles.avatar}
+					source={{ uri: item.picture }} />
+				<View style={styles.textContainer}>
+					<Text style={styles.name}>{item.name}</Text>
+					<Text>{item.company}</Text>
+				</View>
+			</TouchableOpacity>
     )
   }
 
   return (
-    <View style={styles.container}>
-    	<FlatList
-					renderItem={renderContactsItem}
-					keyExtractor={item => item._id}
-					data={data} />
-  </View>
+    <SafeAreaView style={styles.container}>
+    <FlatList
+      renderItem={renderContactsItem}
+      keyExtractor={item => item._id}
+      data={data} />
+  </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-	container: {
+  container: {
 		flex: 1
+	},
+	itemContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		paddingVertical: 10,
+		borderBottomWidth: 1,
+		borderBottomColor: '#eee'
+	},
+	avatar: {
+		width: 50,
+		height: 50,
+		borderRadius: 25,
+		marginHorizontal: 10
+	},
+	textContainer: {
+		justifyContent: 'space-around'
+	},
+	name: {
+		fontSize: 16
 	}
 });
 
