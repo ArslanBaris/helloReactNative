@@ -10,6 +10,7 @@ import {
     FlatList,
     Platform,
 } from 'react-native';
+import Header from './Header';
 
 function PlatformExample() {
 
@@ -19,9 +20,7 @@ function PlatformExample() {
     })
 
     return (
-        <View style={headerStyle}>
-            <Text>Header</Text>
-        </View>
+       <Header />
     );
 }
 
