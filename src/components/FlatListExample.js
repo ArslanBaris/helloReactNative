@@ -23,6 +23,7 @@ function FlatListExample() {
 	const [loading, setLoading] = useState(true)
 	const [page, setPage] = useState(1)
 	const [duringMomentum, setDuringMomentum] = useState(false)
+	const [refreshing, setRefreshing] = useState(false)
 
 	const renderContactsItem = ({ item, index }) => {
 		return (
@@ -81,9 +82,14 @@ function FlatListExample() {
 		const { data: { results: contacts } } = await axios.get(`https://randomuser.me/api/?results=5&page=${page}`);
 		const users = [...allContacts, ...contacts];
 
+		if (refreshing) {
+			users.reverse();
+		}
+
 		setContacts(users);
 		setAllContacts(users);
 		setLoading(false);
+		setRefreshing(false);
 
 	};
 
@@ -95,6 +101,13 @@ function FlatListExample() {
 
 			setDuringMomentum(false)
 		}
+	};
+
+	const onRefresh = () => {
+		setPage(1);
+		setRefreshing(true);
+		setContacts([]);
+		
 	};
 
 	useEffect(() => {
@@ -111,6 +124,8 @@ function FlatListExample() {
 				data={contacts}
 				onEndReached={() => { loadMore() }}
 				onEndReachedThreshold={0}
+				refreshing={refreshing}
+				onRefresh={() => { onRefresh() }}
 				onMomentumScrollBegin={() => { this.duringMomentum = false }} />
 		</SafeAreaView>
 	);
