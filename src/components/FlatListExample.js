@@ -21,6 +21,8 @@ function FlatListExample() {
 	const [contacts, setContacts] = useState([])
 	const [allContacts, setAllContacts] = useState([])
 	const [loading, setLoading] = useState(true)
+	const [page, setPage] = useState(1)
+	const [duringMomentum, setDuringMomentum] = useState(false)
 
 	const renderContactsItem = ({ item, index }) => {
 		return (
@@ -40,6 +42,8 @@ function FlatListExample() {
 		return (
 			<View style={styles.searchContainer}>
 				<TextInput
+				onFocus={() => {setDuringMomentum(true)}}
+				onBlur={() => {setDuringMomentum(false)}}
 					onChangeText={text => {
 						setText(text)
 						searchFilter(text);
@@ -54,7 +58,9 @@ function FlatListExample() {
 	const renderFooter = () => {
 		if (!loading) return null;
 		return (
-			<View>
+			<View style={{
+				paddingVertical: 20
+			}}>
 				<ActivityIndicator size="large" />
 			</View>
 		)
@@ -64,17 +70,31 @@ function FlatListExample() {
 		const newData = allContacts.filter(item => {
 			const listItem = `${item.name.first.toLowerCase()} ${item.name.last.toLowerCase()} ${item.location.state.toLowerCase()}`;
 
-			return listItem.indexOf(text.toLowerCase()) > -1; 
+			return listItem.indexOf(text.toLowerCase()) > -1;
 		});
 
 		setContacts(newData);
 	}
 
 	const getContacts = async () => {
-		const { data: { results: contacts } } = await axios.get('https://randomuser.me/api/?results=30');
-		setContacts(contacts);
-		setAllContacts(contacts);
+		setLoading(true)
+		const { data: { results: contacts } } = await axios.get(`https://randomuser.me/api/?results=5&page=${page}`);
+		const users = [...allContacts, ...contacts];
+
+		setContacts(users);
+		setAllContacts(users);
 		setLoading(false);
+
+	};
+
+	const loadMore = () => {
+		if (!duringMomentum) {
+
+			setPage(page + 1);
+			getContacts();
+
+			setDuringMomentum(false)
+		}
 	};
 
 	useEffect(() => {
@@ -88,7 +108,10 @@ function FlatListExample() {
 				ListHeaderComponent={renderHeader}
 				renderItem={renderContactsItem}
 				keyExtractor={item => item.login.uuid}
-				data={contacts} />
+				data={contacts}
+				onEndReached={() => { loadMore() }}
+				onEndReachedThreshold={0}
+				onMomentumScrollBegin={() => { this.duringMomentum = false }} />
 		</SafeAreaView>
 	);
 }
