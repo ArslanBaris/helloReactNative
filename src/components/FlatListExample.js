@@ -1,26 +1,28 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  FlatList,
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	View,
+	Image,
+	TouchableOpacity,
+	TextInput,
+	FlatList,
+	ActivityIndicator,
 } from 'react-native';
 
 
 
 function FlatListExample() {
 
-    const [text,setText] = useState()
-    const [contacts,setContacts] = useState([])
-    
-  const renderContactsItem = ({item,index}) =>{
-    return(
-    	<TouchableOpacity style={[styles.itemContainer, { backgroundColor: index % 2 === 1 ? '#fafafa' : 'white' }]}>
+	const [text, setText] = useState()
+	const [contacts, setContacts] = useState([])
+	const [loading, setLoading] = useState(true)
+
+	const renderContactsItem = ({ item, index }) => {
+		return (
+			<TouchableOpacity style={[styles.itemContainer, { backgroundColor: index % 2 === 1 ? '#fafafa' : 'white' }]}>
 				<Image
 					style={styles.avatar}
 					source={{ uri: item.picture.thumbnail }} />
@@ -29,24 +31,34 @@ function FlatListExample() {
 					<Text>{item.location.state}</Text>
 				</View>
 			</TouchableOpacity>
-    )
-  }
-  const renderHeader = () => {
+		)
+	}
+
+	const renderHeader = () => {
 		return (
 			<View style={styles.searchContainer}>
 				<TextInput
-                onChangeText={text => {
-                    setText(text)
-                    searchFilter(text);
-                }}
-                value={text}
-                 placeholder="Search.." 
-                 style={styles.searchInput} />
+					onChangeText={text => {
+						setText(text)
+						searchFilter(text);
+					}}
+					value={text}
+					placeholder="Search.."
+					style={styles.searchInput} />
 			</View>
 		)
 	};
 
-    const searchFilter = text => {
+	const renderFooter = () => {
+		if (!loading) return null;
+		return (
+			<View>
+				<ActivityIndicator size="large" />
+			</View>
+		)
+	};
+
+	const searchFilter = text => {
 		const newData = data.filter(item => {
 			const listItem = `${item.name.toLowerCase()} ${item.company.toLowerCase()}`;
 
@@ -59,25 +71,27 @@ function FlatListExample() {
 	const getContacts = async () => {
 		const { data: { results: contacts } } = await axios.get('https://randomuser.me/api/?results=30');
 		setContacts(contacts);
+		setLoading(false);
 	};
 
 	useEffect(() => {
 		getContacts();
 	}, []);
 
-  return (
-    <SafeAreaView style={styles.container}>
-    <FlatList
-    ListHeaderComponent={renderHeader}
-      renderItem={renderContactsItem}
-      keyExtractor={item => item.login.uuid}
-      data={contacts} />
-  </SafeAreaView>
-  );
+	return (
+		<SafeAreaView style={styles.container}>
+			<FlatList
+				ListFooterComponent={renderFooter}
+				ListHeaderComponent={renderHeader}
+				renderItem={renderContactsItem}
+				keyExtractor={item => item.login.uuid}
+				data={contacts} />
+		</SafeAreaView>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
+	container: {
 		flex: 1
 	},
 	itemContainer: {
@@ -99,7 +113,7 @@ const styles = StyleSheet.create({
 	name: {
 		fontSize: 16
 	},
-  searchContainer: {
+	searchContainer: {
 		padding: 10
 	},
 	searchInput: {
