@@ -10,6 +10,7 @@ import {
 	TextInput,
 	FlatList,
 	ActivityIndicator,
+	Keyboard,
 } from 'react-native';
 
 
@@ -18,6 +19,7 @@ function FlatListExample() {
 
 	const [text, setText] = useState()
 	const [contacts, setContacts] = useState([])
+	const [allContacts, setAllContacts] = useState([])
 	const [loading, setLoading] = useState(true)
 
 	const renderContactsItem = ({ item, index }) => {
@@ -59,18 +61,19 @@ function FlatListExample() {
 	};
 
 	const searchFilter = text => {
-		const newData = data.filter(item => {
-			const listItem = `${item.name.toLowerCase()} ${item.company.toLowerCase()}`;
+		const newData = allContacts.filter(item => {
+			const listItem = `${item.name.first.toLowerCase()} ${item.name.last.toLowerCase()} ${item.location.state.toLowerCase()}`;
 
-			return listItem.indexOf(text.toLowerCase()) > -1;
+			return listItem.indexOf(text.toLowerCase()) > -1; 
 		});
 
 		setContacts(newData);
-	};
+	}
 
 	const getContacts = async () => {
 		const { data: { results: contacts } } = await axios.get('https://randomuser.me/api/?results=30');
 		setContacts(contacts);
+		setAllContacts(contacts);
 		setLoading(false);
 	};
 
