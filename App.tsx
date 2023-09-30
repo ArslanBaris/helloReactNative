@@ -27,44 +27,44 @@ function App(): JSX.Element {
 
   useEffect(() => {
     getRandomUser()
-  },[])
+  }, [])
 
-  const getRandomUser = async() => {
+  const getRandomUser = async () => {
 
     setLoading(true)
 
-    const { data : {results} } = await axios.get("https://randomuser.me/api/")
+    const { data: { results } } = await axios.get("https://randomuser.me/api/")
     const { name: { first, last } } = results[0];
 
-    
-      setName(first); 
-      setSurname(last)
-      setLoading(false)
+
+    setName(first);
+    setSurname(last)
+    setLoading(false)
   }
 
   return (
     <SafeAreaView style={styles.container}>
-     {/* <FlatListExample /> */}
-     {
-						loading ? <Text style={styles.text}>Loading...</Text> :
-							<Text style={styles.text}>{name} {surname}</Text>
-					}
-					<Button
-						title={"Random User"}
-						onPress={getRandomUser} />
-  </SafeAreaView>
+      <FlatListExample />
+      {/* {
+        loading ? <Text style={styles.text}>Loading...</Text> :
+          <Text style={styles.text}>{name} {surname}</Text>
+      }
+      <Button
+        title={"Random User"}
+        onPress={getRandomUser} /> */}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
+    flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center'
+  },
   text: {
-		textAlign: 'center'
-	}
+    textAlign: 'center'
+  }
 });
 
 export default App;
